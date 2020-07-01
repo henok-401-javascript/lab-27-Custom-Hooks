@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './components/Header';
 import ToDo from './components/ToDo';
+import Footer from './components/Footer';
 import './styles/style.scss';
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
  
       <Header/>
       <ToDo/>
+      <Footer/>
     </div>
   );
 }

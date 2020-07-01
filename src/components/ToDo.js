@@ -29,8 +29,7 @@ let [Tasks , setTasks] = useState([]);
        }else{
          document.title = 'All tasks completed!!';
        }
-       
-
+  
     }
   } ,[Tasks]);
 

@@ -7,7 +7,7 @@
 ### Links and Resources
 
 
-- [submission PR]()
+- [submission PR](https://github.com/henok-401-javascript/lab-27-custom-hooks/pull/1)
 - [netlify]()
 
 
