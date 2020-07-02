@@ -14,11 +14,10 @@ function ToDoItem(props){
   <Form.Label> Status</Form.Label>
     <Form.Check 
  
-    value={props.data.status === 'complete'}
+    value={props.data.status}
      onChange={() =>{
        let newTask = {...props.data};
-    newTask.status = 
-      newTask.status === 'complete'? 'Incomplete' :'complete'
+       newTask.status = newTask.status === !newTask.status;
     props.modifiedTask(props.Index , newTask);
      }}
     type="switch" 

@@ -1,45 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import ToDoForm from './ToDoForm';
 import ToDoList from './ToDoList';
 import { Container } from 'react-bootstrap';
 
+import useFetch from '../hooks/useFetch';
+
+
+
 function ToDo(){
-let [Tasks , setTasks] = useState([]);
+const {setRequest , response} = useFetch({
+  url: 'https://todo-server-401n16.herokuapp.com/api/v1/todo',
+});
 
-  function addTask(taskDetails){
-  setTasks([...Tasks,taskDetails]) 
+  async function addTask(taskDetails){
+   await setRequest({
+     url:'https://todo-server-401n16.herokuapp.com/api/v1/todo' ,
+     method:'POST',
+     response:taskDetails,
+   }) 
   }
 
-  function modifiedTask(Index , updatedTask){
-    let currentTask = [...Tasks];
-    currentTask[Index] = updatedTask;
-    setTasks(currentTask);
+ async function modifiedTask(Index , updatedTask){
+  await  setRequest({
+      url:'https://todo-server-401n16.herokuapp.com/api/v1/todo' + response[Index]._id,
+      method:'PUT',
+      body:updatedTask,
+      
+    })
   }
-
-
-  useEffect(() =>{
-    let Incomplete = 0;
-    for(let i = 0; i < Tasks.length; i++){
-       if(Tasks[i].status === ' Incomplete'){
-        Incomplete++;
-       }if(Incomplete === 1){
-         document.title = '1 Incomplete tasks!';
-       }if(Incomplete){
-         document.title = Incomplete + ' Incomplete tasks!';
-       }else{
-         document.title = 'All tasks completed!!';
-       }
+async function deletedTask(Index){
+  await setRequest({
+    url:'https://todo-server-401n16.herokuapp.com/api/v1/todo'+ response[Index]._id,
+    method:'DELETE',
   
-    }
-  } ,[Tasks]);
+  });
+}
 
   return(
     <>
     <Container>
      <ToDoForm addTask={addTask}/>
-     <ToDoList Tasks={Tasks} modifiedTask={modifiedTask}/>
+     <ToDoList 
+     Tasks={response}
+      modifiedTask={modifiedTask}
+      deletedTask={deletedTask}
+      />
     </Container>
     </>
   )
 }
+
 export default ToDo;
+
+
+
+
+ // useEffect(() =>{
+  //   let Incomplete = 0;
+  //   for(let i = 0; i < Tasks.length; i++){
+  //      if(Tasks[i].status === ' Incomplete'){
+  //       Incomplete++;
+  //      }if(Incomplete === 1){
+  //        document.title = '1 Incomplete tasks!';
+  //      }if(Incomplete){
+  //        document.title = Incomplete + ' Incomplete tasks!';
+  //      }else{
+  //        document.title = 'All tasks completed!!';
+  //      }
+  
+  //   }
+  // } ,[]);

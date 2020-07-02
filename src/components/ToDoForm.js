@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {Form} from 'react-bootstrap';
 import {Button} from 'react-bootstrap';
+import useForm from '../hooks/useForm';
 
 function ToDoForm(props){
-
-  const [description , setDescription] = useState(props.description || '');
-  const [assigned , setAssigned] = useState(props.assigned || '');
-  const [status , setStatus] = useState(props.status || ' Incomplete');
-  const [difficulty , setDifficulty] = useState(props.difficulty || 1);
-console.log(description,assigned,status,difficulty);
-function submitHandler(){
-props.addTask({
-  description,
-  assigned,
-  status,
-  difficulty
-});
-}
+const [updateForm , submitHandler , data] = useForm(props.addTask);
+console.log('status data',data);
+//   const [description , setDescription] = useState(props.description || '');
+//   const [assigned , setAssigned] = useState(props.assigned || '');
+//   const [status , setStatus] = useState(props.status || ' Incomplete');
+//   const [difficulty , setDifficulty] = useState(props.difficulty || 1);
+// console.log(description,assigned,status,difficulty);
+// function submitHandler(){
+// props.addTask({
+//   description,
+//   assigned,
+//   status,
+//   difficulty
+// });
+// }
 
 
 return(
@@ -28,9 +30,9 @@ return(
 
   <Form.Control 
   type="text" 
-  value={description}
+  rows='3'
   onChange={(e) =>{
-    setDescription(e.target.value);
+    updateForm('description' , e.target.value);
   }}
   />
 
@@ -41,9 +43,8 @@ return(
   <Form.Label>Assigned To</Form.Label>
   <Form.Control 
   type="text" 
-  value={assigned}
   onChange={(e) =>{
-    setAssigned(e.target.value);
+    updateForm('assigned',e.target.value);
   }}
   
   />
@@ -52,14 +53,12 @@ return(
 <Form.Group controlId="ToDo-status">
 <Form.Label> Status</Form.Label>
   <Form.Check 
-
-  value={status === 'Complete'}
-  onChange={() =>{
-    setStatus(status === 'Complete' ? 'Incomplete' : 'Complete' ,);
+  onChange={(e) =>{
+    updateForm('status' , e.target.checked);
   }}
   type="switch" 
   id='status -switch'
-  label={status} 
+  label={data.status ? 'complete' : 'Incomplete'} 
   
   />
 </Form.Group>
@@ -72,21 +71,16 @@ return(
   step={1}
   min={0}
   max={5}
-  value={difficulty}
   onChange={(e) =>{
-    setDifficulty(e.target.value);
+    updateForm('difficulty' , e.target.value);
   }}
-  
   />
 </Form.Group>
 
 <Button variant="primary" type="button"  onClick={submitHandler}>
   Submit
 </Button>
-
 </Form>
-
-
   </div>
 )
 
